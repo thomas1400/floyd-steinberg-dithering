@@ -5,6 +5,7 @@ let oldslider;
 const imagepath = 'Images/cat.jpeg';
 
 function preload() {
+  // Load the image. Save a copy as the original.
   orig = loadImage(imagepath);
   edited = loadImage(imagepath);
 }
@@ -14,26 +15,25 @@ function setup() {
   slider = createSlider(2, 8, 5, 1);
 }
 
-// Generate a color palette for the image
 function gen_palette(img, numofcols) {
+  // Generate a color palette for the image.
   let depth = Math.ceil(Math.log2(numofcols));
   let kd = KDTreeNode.pixelsKD(img, depth);
   return kd.averageOfLeaves();
 }
 
-// Calculate "distance" between two colors in RGB-space
 function color_dist(c1, c2) {
+  // Calculate "distance" between two colors in RGB-space.
   return Math.sqrt(
     (c1[0] - c2[0]) * (c1[0] - c2[0]) +
     (c1[1] - c2[1]) * (c1[1] - c2[1]) +
     (c1[2] - c2[2]) * (c1[2] - c2[2]));
 }
 
-// Quantize the colors in an image into *numofcols* colors.
-// E.g., turn a full color png into an 4-bit color with a color palette
-// of 16 colors, chosen using the median cut algorithm.
 function quantize(img, numofcols) {
-  console.log(img);
+  // Quantize the colors in an image into *numofcols* colors.
+  // E.g., turn a full color png into an 4-bit color with a color palette
+  // of 16 colors, chosen using the median cut algorithm.
   img.loadPixels();
   let palette = gen_palette(img, numofcols);
 
@@ -63,10 +63,11 @@ function quantize(img, numofcols) {
   img.updatePixels();
 }
 
-// Dither an image using Floyd-Steinberg dithering, a process of correcting
-// for quantization error by distributing it on neighboring pixels.
-// Creates more visually pleasing quantized images.
 function dither(img, numofcols) {
+  // Dither an image using Floyd-Steinberg dithering, a process of correcting
+  // for quantization error by distributing it on neighboring pixels.
+  // Creates more visually pleasing quantized images.
+
   // Load the image.
   img.loadPixels();
 
