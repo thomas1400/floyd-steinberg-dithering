@@ -2,7 +2,7 @@ let orig;
 let edited;
 let slider;
 let oldslider;
-const imagepath = 'Images/cat.jpeg';
+const imagepath = 'Images/dog.jpg';
 
 function preload() {
   // Load the image. Save a copy as the original.
@@ -18,7 +18,7 @@ function setup() {
 function gen_palette(img, numofcols) {
   // Generate a color palette for the image.
   let depth = Math.ceil(Math.log2(numofcols));
-  let kd = KDTreeNode.pixelsKD(img, depth);
+  let kd = KDTreeNode.modifiedPixelsKD(img, depth);
   return kd.averageOfLeaves();
 }
 
@@ -144,7 +144,7 @@ function draw() {
       0, 0, orig.width, orig.height,
       0, 0, edited.width, edited.height);
 
-    dither(edited, slider.value());
+    dither(edited, 32);
     image(edited, edited.width, 0);
     oldslider = slider.value();
   }
